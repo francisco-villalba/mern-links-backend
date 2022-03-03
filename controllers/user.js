@@ -18,7 +18,7 @@ export const registerRoute = async (req, res) => {
         else {
             const hashedPassword = await bcrypt.hash(password, 12)
             const user = await User.create({ email, password: hashedPassword, nickname, theme })
-            const token = jwt.sign({ email, id: user._id}, process.env.SECRET, { expiresIn: '24h' })
+            const token = jwt.sign({ email, id: user._id}, process.env.SECRET, { expiresIn: '60d' })
             
             data = { token }
             status = 201
@@ -40,7 +40,7 @@ export const loginRoute = async (req, res) => {
         let status
     
         if(user && await passwordsMatch()) {
-            const token = jwt.sign({ email, id: user._id}, process.env.SECRET, { expiresIn: '24h' })
+            const token = jwt.sign({ email, id: user._id}, process.env.SECRET, { expiresIn: '60d' })
             
             data = { token }
             status = 201
